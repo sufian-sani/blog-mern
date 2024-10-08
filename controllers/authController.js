@@ -63,10 +63,11 @@ exports.login = async (req, res) => {
         //     expiresIn: '30d' // Token expires in 30 days hour
         // });
         const token = signToken({id: user.id });
-
+        user.password = undefined;
 
         res.status(200).json({
             status: 'success',
+            user,
             token,
             message: 'Login successful'
         });
