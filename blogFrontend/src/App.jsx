@@ -16,6 +16,7 @@ import ProfileUpdate from "./pages/ProfileUpdate.jsx";
 
 function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [user, setUser] = useState(null); // Store user info in state
 
     useEffect(() => {
         // Check if token exists in localStorage when app loads
@@ -27,11 +28,11 @@ function App() {
 
   return (
       <Router>
-          <Navbar isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />
+          <Navbar isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} user={user} />
           <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/signup" element={<SignUp />} />
-              <Route path="/signin" element={<SignIn setIsAuthenticated={setIsAuthenticated} />} />
+              <Route path="/signin" element={<SignIn setIsAuthenticated={setIsAuthenticated} setUser={setUser} />} />
               {/*<Route path="/profile" element={<Profile />} />*/}
               <Route path="/blog/:id" element={<BlogDetails />} />
               {isAuthenticated && (

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const SignIn = ({ setIsAuthenticated }) => {
+const SignIn = ({ setIsAuthenticated, setUser }) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
@@ -27,6 +27,7 @@ const SignIn = ({ setIsAuthenticated }) => {
             });
 
             const data = await response.json();
+            setUser(data.user);
 
             if (response.ok) {
                 // Assuming the token is in data.token

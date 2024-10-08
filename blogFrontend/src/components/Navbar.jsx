@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom"; // Assume you're using react-router for navigation
 
-const Navbar = ({ isAuthenticated, setIsAuthenticated }) => {
+const Navbar = ({ isAuthenticated, setIsAuthenticated, user }) => {
     // const [isAuthenticated, setIsAuthenticated] = useState(
     //     !!localStorage.getItem("authToken") // Check if there's a token to initialize the state
     // ); // Authentication state
@@ -23,7 +23,7 @@ const Navbar = ({ isAuthenticated, setIsAuthenticated }) => {
                 {isAuthenticated ? (
                     <>
                         <li>
-                            <Link to="/profile">Profile</Link> {/* Profile link for logged-in users */}
+                            <Link to="/profile">Name: {user.name}</Link> {/* Profile link for logged-in users */}
                         </li>
                         <li>
                             <Link to="/create-blog">Create Blog</Link> {/* Add link to create blog */}
