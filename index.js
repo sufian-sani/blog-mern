@@ -1,11 +1,14 @@
 const express = require('express');
+const session = require('express-session');
 const cors = require('cors');
 // const setupAssociations = require('./models/associations');
 // const sequelize = require('./config/database');
 const sequelize = require('./config/database');
 // console.log('sequelize',sequelize);
 const app = express();
-app.use(cors());
+app.use(cors({
+    credentials: true, // Allow cookies to be sent with requests
+}));
 
 sequelize.sync()
     .then(()=>{
@@ -14,6 +17,17 @@ sequelize.sync()
     .catch((err)=>{
         console.error('Error synchronizing the database:',err);
     })
+
+app.use(session({
+    secret: '123456abc',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        secure: false, // Set to true if using HTTPS
+        httpOnly: true, // Helps mitigate XSS
+        maxAge: 1000 * 60 * 60 * 24 // Cookie expiry time (1 day)
+    },
+}));
 
 // After defining all models
 // setupAssociations();

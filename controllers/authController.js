@@ -1,4 +1,5 @@
 const db = require('../models');
+const session = require('express-session');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 // Secret key for signing JWTs
@@ -65,6 +66,8 @@ exports.login = async (req, res) => {
         const token = signToken({id: user.id });
         user.password = undefined;
 
+        req.session.user = {userData: user} ; // Store user data in session
+
         res.status(200).json({
             status: 'success',
             user,
@@ -78,6 +81,23 @@ exports.login = async (req, res) => {
             message: err.message
         });
     }
+}
+
+exports.sessionCheck = async (req, res) => {
+    // console.log(req.session);
+    try {
+        if (req.session) {
+            res.json({ user: req.session.user });
+        } else {
+            res.status(401).json({ message: 'Unauthorized' });
+        }
+    } catch (err) {
+        res.status(500).json({
+            status: 'error',
+            message: err.message
+        })
+    }
+    
 }
 
 // exports.logout = async (req, res) => {

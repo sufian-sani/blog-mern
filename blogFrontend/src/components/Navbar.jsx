@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom"; // Assume you're using react-router for navigation
 import { UserContext } from '../context/UserContext.jsx'
 
@@ -16,6 +16,25 @@ const Navbar = ({ isAuthenticated, setIsAuthenticated }) => {
         setIsAuthenticated(false); // Set authentication state to false
         navigate("/signin"); // Redirect to the sign-in page
     };
+
+    useEffect(() => {
+        const checkSession = async () => {
+            try {
+                fetch('http://localhost:3000/users/session-check', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                    .then(response => response.json())
+                    .then(data => console.log('data',data))
+                    .catch(error => console.error('Error:', error));
+            } catch (error) {
+                console.error('Error fetching session:', error);
+            }
+        };
+        checkSession()
+    }, [setUser]);
 
     return (
         <nav>

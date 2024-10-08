@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
+import { UserProvider, UserContext } from './context/UserContext.jsx'
 import './App.css'
 import Home from "./pages/Home.jsx";
 import BlogDetails from "./pages/BlogDetails.jsx";
@@ -13,10 +14,10 @@ import UpdatePassword from "./pages/UpdatePassword.jsx";
 import CreateBlog from "./pages/CreateBlog.jsx";
 import BlogEdit from "./pages/BlogEdit.jsx";
 import ProfileUpdate from "./pages/ProfileUpdate.jsx";
-import { UserProvider } from './context/UserContext.jsx'
 
 function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    // const { setUser } = useContext(UserContext);
     // const [user, setUser] = useState(null); // Store user info in state
 
     useEffect(() => {
@@ -25,6 +26,7 @@ function App() {
         if (token) {
             setIsAuthenticated(true); // If token exists, set authenticated to true
         }
+
     }, []); // This runs only once when the component mounts
 
   return (

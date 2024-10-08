@@ -9,6 +9,7 @@ router.patch('/updatepassword', authenticateUser, authController.updatePassword)
 router.get('/author/:id', authController.getUserById)
 router.get('/profile', authController.authProfile)
 router.put('/update-profile',authenticateUser, authController.updateProfile)
+router.get('/session-check', authController.sessionCheck)
 // router.patch('/updatepassword', (req, res) => {
 //     console.log('test')
 // });
