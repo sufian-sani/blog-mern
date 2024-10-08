@@ -13,10 +13,11 @@ import UpdatePassword from "./pages/UpdatePassword.jsx";
 import CreateBlog from "./pages/CreateBlog.jsx";
 import BlogEdit from "./pages/BlogEdit.jsx";
 import ProfileUpdate from "./pages/ProfileUpdate.jsx";
+import { UserProvider } from './context/UserContext.jsx'
 
 function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [user, setUser] = useState(null); // Store user info in state
+    // const [user, setUser] = useState(null); // Store user info in state
 
     useEffect(() => {
         // Check if token exists in localStorage when app loads
@@ -28,23 +29,25 @@ function App() {
 
   return (
       <Router>
-          <Navbar isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} user={user} />
-          <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/signup" element={<SignUp />} />
-              <Route path="/signin" element={<SignIn setIsAuthenticated={setIsAuthenticated} setUser={setUser} />} />
-              {/*<Route path="/profile" element={<Profile />} />*/}
-              <Route path="/blog/:id" element={<BlogDetails />} />
-              {isAuthenticated && (
-                  <>
-                      <Route path="/profile" element={<Profile />} />
-                      <Route path="/update-password" element={<UpdatePassword />} /> {/* Add update password route */}
-                      <Route path="/create-blog" element={<CreateBlog />} />
-                      <Route path="/edit-blog/:id" element={<BlogEdit />} /> {/* Add route for editing blog */}
-                      <Route path="/update-profile" element={<ProfileUpdate />} />
-                  </>
-              )}
-          </Routes>
+          <UserProvider>
+              <Navbar isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />
+              <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/signup" element={<SignUp />} />
+                  <Route path="/signin" element={<SignIn setIsAuthenticated={setIsAuthenticated} />} />
+                  {/*<Route path="/profile" element={<Profile />} />*/}
+                  <Route path="/blog/:id" element={<BlogDetails />} />
+                  {isAuthenticated && (
+                      <>
+                          <Route path="/profile" element={<Profile />} />
+                          <Route path="/update-password" element={<UpdatePassword />} /> {/* Add update password route */}
+                          <Route path="/create-blog" element={<CreateBlog />} />
+                          <Route path="/edit-blog/:id" element={<BlogEdit />} /> {/* Add route for editing blog */}
+                          <Route path="/update-profile" element={<ProfileUpdate />} />
+                      </>
+                  )}
+              </Routes>
+          </UserProvider>
       </Router>
   )
 }

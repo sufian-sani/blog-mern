@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom"; // Assume you're using react-router for navigation
+import { UserContext } from '../context/UserContext.jsx'
 
-const Navbar = ({ isAuthenticated, setIsAuthenticated, user }) => {
+const Navbar = ({ isAuthenticated, setIsAuthenticated }) => {
+    const { user, setUser } = useContext(UserContext);
     // const [isAuthenticated, setIsAuthenticated] = useState(
     //     !!localStorage.getItem("authToken") // Check if there's a token to initialize the state
     // ); // Authentication state
@@ -10,6 +12,7 @@ const Navbar = ({ isAuthenticated, setIsAuthenticated, user }) => {
     // Handle logout
     const handleLogout = () => {
         localStorage.removeItem("authToken"); // Remove token
+        setUser(null);
         setIsAuthenticated(false); // Set authentication state to false
         navigate("/signin"); // Redirect to the sign-in page
     };
@@ -23,7 +26,7 @@ const Navbar = ({ isAuthenticated, setIsAuthenticated, user }) => {
                 {isAuthenticated ? (
                     <>
                         <li>
-                            <Link to="/profile">Name: {user.name}</Link> {/* Profile link for logged-in users */}
+                            <Link to="/profile">Name: {user?.name}</Link> {/* Profile link for logged-in users */}
                         </li>
                         <li>
                             <Link to="/create-blog">Create Blog</Link> {/* Add link to create blog */}

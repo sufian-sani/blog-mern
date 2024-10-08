@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from '../context/UserContext.jsx'; // Import the context
 
-const SignIn = ({ setIsAuthenticated, setUser }) => {
+const SignIn = ({ setIsAuthenticated }) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const navigate = useNavigate();
+
+    const { setUser } = useContext(UserContext); // Get setUser from context
 
     const handleSubmit = async (e) => {
         e.preventDefault();
