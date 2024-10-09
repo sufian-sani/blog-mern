@@ -66,7 +66,7 @@ exports.login = async (req, res) => {
         const token = signToken({id: user.id });
         user.password = undefined;
 
-        req.session.user = {userData: user} ; // Store user data in session
+        // req.session.user = {userData: user} ; // Store user data in session
 
         res.status(200).json({
             status: 'success',
@@ -87,7 +87,13 @@ exports.sessionCheck = async (req, res) => {
     // console.log(req.session);
     try {
         if (req.session) {
-            res.json({ user: req.session.user });
+            const userData = req.session.user
+            // res.json({ user: req.session.user });
+            // console.log(userData)
+            res.status(200).json({
+                status: 'success',
+                data: userData
+            });
         } else {
             res.status(401).json({ message: 'Unauthorized' });
         }

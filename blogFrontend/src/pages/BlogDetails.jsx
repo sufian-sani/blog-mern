@@ -189,7 +189,7 @@ const BlogDetails = () => {
     if (loading) return <div>Loading...</div>; // Show loading indicator
     if (error) return <div>{error}</div>; // Show error message if any
 
-    console.log(comments)
+    // console.log(comments)
 
     return (
         <div>

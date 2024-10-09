@@ -38,6 +38,8 @@ const SignIn = ({ setIsAuthenticated }) => {
 
                 // Store the token in local storage (or cookies)
                 localStorage.setItem("authToken", token);
+                localStorage.setItem("userData", JSON.stringify(data.user));
+                // localStorage.setItem("userData", data.user);
 
                 // Update the authentication state
                 setIsAuthenticated(true);
