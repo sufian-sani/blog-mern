@@ -1,5 +1,6 @@
 const express = require('express');
 const session = require('express-session');
+const cookieParser = require('cookie-parser');
 const cors = require('cors');
 // const setupAssociations = require('./models/associations');
 // const sequelize = require('./config/database');
@@ -7,6 +8,7 @@ const sequelize = require('./config/database');
 // console.log('sequelize',sequelize);
 const app = express();
 app.use(cors());
+app.use(cookieParser()); // Use cookie-parser to parse cookies
 
 sequelize.sync()
     .then(()=>{
@@ -16,19 +18,14 @@ sequelize.sync()
         console.error('Error synchronizing the database:',err);
     })
 
-// app.use(session({
-//     secret: '123456abc',
-//     resave: false,
-//     saveUninitialized: true,
-//     cookie: {
-//         secure: false, // Set to true if using HTTPS
-//         httpOnly: true, // Helps mitigate XSS
-//         maxAge: 1000 * 60 * 60 * 24 // Cookie expiry time (1 day)
-//     },
-// }));
-
-// After defining all models
-// setupAssociations();
+// Session middleware setup
+app.use(session({
+    secret: '123456',
+    // resave: false,
+    saveUninitialized: true,
+    // cookie: { secure: false }
+    cookie: { maxAge: 30000 }
+}))
 
 const blogRoutes = require('./routes/blogRouter');
 const userRoutes = require('./routes/userRoutes');
@@ -41,13 +38,6 @@ app.use(express.json());
 app.use('/blog', blogRoutes)
 app.use('/users', userRoutes);
 
-// sequelize.sync()
-//     .then(() => {
-//         console.log('Database synced');
-//     })
-//     .catch(err => {
-//         console.error('Error syncing the database:', err);
-//     });
 
 app.listen(port, () => {
     console.log('server started on port: ' + port);

@@ -13,6 +13,7 @@ const BlogDetails = () => {
     const [alreadyLiked, setAlreadyLiked] = useState(false);
     const [comments, setComments] = useState([]); // State to hold comments
     const [newComment, setNewComment] = useState(''); // State for new comment
+    const [hasLiked, setHasLiked] = useState(false);
 
 
     const navigate = useNavigate();
@@ -112,6 +113,7 @@ const BlogDetails = () => {
             // Refetch the blog details to update total likes
             const updatedResponse = await fetch(`http://localhost:3000/blog/${id}`);
             const updatedData = await updatedResponse.json();
+            setHasLiked(true)
             setBlog(updatedData.data);
         } catch (err) {
             console.error('Error liking the blog:', err);
@@ -203,7 +205,9 @@ const BlogDetails = () => {
                     {alreadyLiked ? (
                         <button onClick={handleDislike}>Dislike</button>
                     ) : (
-                        <button onClick={handleLike}>Like</button>
+                        <button onClick={handleLike} disabled={hasLiked}>
+                            {hasLiked ? 'Liked' : 'Like'}
+                        </button>
                     )}
                     {/*<button onClick={handleLike}>Like</button>*/}
                     {/*<button onClick={handleLike}>*/}
