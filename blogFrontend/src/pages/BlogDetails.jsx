@@ -179,7 +179,7 @@ const BlogDetails = () => {
             // console.log(result.data)
 
             if (result.success) {
-                console.log(result.data);
+                // console.log(result.data);
                 setComments([...comments, result.data]); // Add new comment to state
                 setNewComment(''); // Clear comment input
             }
@@ -202,17 +202,13 @@ const BlogDetails = () => {
                     <div>{blog.content}</div>
                     <p>Category: {blog.Category?.name || "Uncategorized"}</p> {/* Display Category */}
                     <p>Likes: {blog.totalLikes}</p>
-                    {alreadyLiked ? (
-                        <button onClick={handleDislike}>Dislike</button>
-                    ) : (
-                        <button onClick={handleLike} disabled={hasLiked}>
-                            {hasLiked ? 'Liked' : 'Like'}
-                        </button>
-                    )}
-                    {/*<button onClick={handleLike}>Like</button>*/}
-                    {/*<button onClick={handleLike}>*/}
-                    {/*    {alreadyLiked ? 'Dislike' : 'Like'}*/}
-                    {/*</button>*/}
+                    <button
+                        onClick={alreadyLiked ? handleDislike : handleLike}
+                        disabled={!loggedInUserId && hasLiked}
+                    >
+                        {alreadyLiked ? "Dislike" : hasLiked ? "Liked" : "Like"}
+                    </button>
+
                     {loggedInUserId === blog.userId && (
                         <>
                             <Link to={`/edit-blog/${blog.id}`}>
