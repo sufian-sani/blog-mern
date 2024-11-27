@@ -2,6 +2,7 @@ const db = require('../models');
 // const Blog = require('../models/blogs');
 const AppError = require('../utils/appError');
 const { getTotalLikesByBlogId } = require('./likeController');
+const { Op } = require('sequelize'); // Import Op
 // const Category = require('../models/category');
 
 exports.getAllBlogs = async (req, res) => {
@@ -177,6 +178,14 @@ exports.getBlogById = async (req, res) => {
             });
         }
 
+        // related blog
+        const relatedBlogs = await db.Blogs.findAll({
+            where: {
+                categoryId: blog.categoryId,
+                id: { [Op.ne]: req.params.id }
+            }
+        })
+
         // const categoryName = blog.category ? blog.category.name : 'uncategorized';
 
         const totalLikes = await getTotalLikesByBlogId(req.params.id);
@@ -185,7 +194,8 @@ exports.getBlogById = async (req, res) => {
             data: {
                 ...blog.get(),
                 // category: categoryName,
-                totalLikes
+                totalLikes,
+                relatedBlogs
             }
         });
     } catch (err) {
