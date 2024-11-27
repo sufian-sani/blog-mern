@@ -200,7 +200,7 @@ const BlogDetails = () => {
                     <h1>{blog.title}</h1>
                     <p>{author.name ? `By ${author.name}` : "Author not available"} on {formatDate(blog.createdAt) || "Date not available"}</p>
                     <div>{blog.content}</div>
-                    <p>Category: {blog.Category?.name || "Uncategorized"}</p> {/* Display Category */}
+                    <p>Category: {blog.category?.name || "Uncategorized"}</p> {/* Display Category */}
                     <p>Likes: {blog.totalLikes}</p>
                     <button
                         onClick={alreadyLiked ? handleDislike : handleLike}
