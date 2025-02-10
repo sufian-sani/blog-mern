@@ -191,8 +191,6 @@ const BlogDetails = () => {
     if (loading) return <div>Loading...</div>; // Show loading indicator
     if (error) return <div>{error}</div>; // Show error message if any
 
-    // console.log(comments)
-
     return (
         <div>
             {blog ? (
@@ -245,6 +243,14 @@ const BlogDetails = () => {
             ) : (
                 <p>No blog details available</p>
             )}
+            <h2>Related Blog: </h2>
+            {blog.relatedBlogs.length > 0 ? (
+                blog.relatedBlogs.map((relatedBlog) => (
+                    <div key={relatedBlog.id}>
+                        <Link to={`/blog/${relatedBlog.id}`}>{relatedBlog.title}</Link>
+                    </div>
+                ))
+            ) : <p>No related blog</p>}
         </div>
     );
 };
